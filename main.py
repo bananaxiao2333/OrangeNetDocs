@@ -108,9 +108,9 @@ def generate_markdown(sponsors):
 
 
 # 程序启动时获取数据
-# all_sponsors = get_all_sponsors()
-# sponsors_md = generate_markdown(all_sponsors)
-sponsors_md = ""
+all_sponsors = get_all_sponsors()
+sponsors_md = generate_markdown(all_sponsors)
+# sponsors_md = ""
 
 from datetime import datetime
 
