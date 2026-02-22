@@ -1,0 +1,24 @@
+# .github/workflows/ci.yml
+name: ci
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # 允许手动触发
+  schedule:
+    - cron: 0 * * * *
+env:
+  USER_ID: ${{ secrets.AFD_USER_ID }}
+  API_TOKEN: ${{ secrets.AFD_API_TOKEN }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+      - run: uv sync
+      - run: uv run mkdocs build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
