@@ -1,0 +1,200 @@
+site_name: deep orange Netork
+# repo_url: https://github.com/bananaxiao2333/hvstit-website
+# repo_name: hvstit-website
+# edit_uri: tree/main/docs
+theme:
+  # logo: assets/logo.jpg
+  # favicon: assets/logo.jpg
+  font: false
+  name: material
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: deep orange
+      toggle:
+        icon: material/brightness-auto
+        name: Bright
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Dark
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: System
+  features:
+    - navigation.footer
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.prune
+    - navigation.indexes
+    - toc.follow
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.action.view
+
+plugins:
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: zh
+          default: true
+          name: 中文
+          build: true
+          site_author: 内部
+          site_description: 橙网群组服务提供商
+          site_name: 橙网
+          admonition_translations:
+            warning: 注意
+          # extra:
+          #   consent:
+          #     title: localStorage
+          #     actions:
+          #       - accept
+          #     description: >-
+          #       我们使用localStorage存储客户端信息
+          # nav_translations:
+          theme:
+            palette:
+              # Palette toggle for automatic mode
+              - media: "(prefers-color-scheme)"
+                primary: deep orange
+                toggle:
+                  icon: material/brightness-auto
+                  name: 明亮
+              # Palette toggle for light mode
+              - media: "(prefers-color-scheme: light)"
+                scheme: default
+                primary: deep orange
+                toggle:
+                  icon: material/brightness-7
+                  name: 黑暗
+              # Palette toggle for dark mode
+              - media: "(prefers-color-scheme: dark)"
+                scheme: slate
+                primary: deep orange
+                toggle:
+                  icon: material/brightness-4
+                  name: 系统
+        - locale: en
+          name: English
+          build: true
+          site_author: Internal
+          site_description: Orange Network Service Provider
+          site_name: Orange Network
+          # extra:
+          #   consent:
+          #     title: localStorage Usage
+          #     actions:
+          #       - accept
+          #     description: >-
+          #       We use localStorage to storage client data
+          # nav_translations:
+          theme:
+            palette:
+              # Palette toggle for automatic mode
+              - media: "(prefers-color-scheme)"
+                primary: deep orange
+                toggle:
+                  icon: material/brightness-auto
+                  name: Bright
+              # Palette toggle for light mode
+              - media: "(prefers-color-scheme: light)"
+                scheme: default
+                primary: deep orange
+                toggle:
+                  icon: material/brightness-7
+                  name: Dark
+              # Palette toggle for dark mode
+              - media: "(prefers-color-scheme: dark)"
+                scheme: slate
+                primary: deep orange
+                toggle:
+                  icon: material/brightness-4
+                  name: System
+  - search:
+      separator: '[\s\u200b\-]'
+  - tags
+  - glightbox
+  # - recently-updated:
+  #     limit: 10          # Limit the number of docs displayed
+  #     exclude:           # List of excluded files
+  #       - 11-10-report-2.md       # Exclude specific file
+  #     template: docs/templates/lastupdate.html    # Custom rendering template
+  # - document-dates:
+  #     position: top            # 显示位置：top（标题后） bottom（文档末尾）
+  #     type: timeage               # 时间类型：date datetime timeago，默认：date
+  #     exclude:
+  #       - index.zh.md
+  #       - index.en.md
+  #       - log/index.zh.md
+  #       - log/index.en.md
+  #       - projects/*
+  #       - team/index.zh.md
+  #       - team/index.en.md
+  #     date_format: '%Y-%m-%d'  # 日期格式化字符串，例如：%Y年%m月%d日、%b %d, %Y
+  #     time_format: '%H:%M:%S'  # 时间格式化字符串（仅在 type=datetime 时有效）
+  #     show_author: false        # 是否显示作者信息，默认：true
+  - macros
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+      cache_safe: true
+  # - exporter:
+  #     formats:
+  #       pdf:
+  #         enabled: !ENV [MKDOCS_EXPORTER_PDF, true]
+  #         concurrency: 8
+  #         aggregator:
+  #           enabled: true
+  #           output: .well-known/site.pdf
+  #           covers: all
+
+extra:
+  social:
+    - icon: fontawesome/brands/qq
+      link: https://qq.com
+  generator: false
+copyright: Copyright &copy; 2026 Orange Network
+extra_javascript:
+  - js/mermaid/mermaid.min.js
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.blocks.caption
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.details
+  - footnotes
+  - meta
+
+#https://ultrabug.github.io/mkdocs-static-i18n/getting-started/installation/
+#https://squidfunk.github.io/mkdocs-material/setup/changing-the-language/

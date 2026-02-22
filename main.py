@@ -45,7 +45,7 @@ def get_sponsors(page=1):
     # 生成签名
     sign = generate_sign(API_TOKEN, params_json, ts, USER_ID)
 
-    # 构建请求数据
+    # 构建请求数据（不打印）
     request_data = {
         "user_id": USER_ID,
         "params": params_json,
@@ -55,18 +55,20 @@ def get_sponsors(page=1):
 
     # 发送请求
     headers = {'Content-Type': 'application/json'}
-    response = requests.post(API_URL, json=request_data, headers=headers)
+    try:
+        response = requests.post(
+            API_URL, json=request_data, headers=headers, timeout=10)
 
-    # 处理响应
-    if response.status_code == 200:
-        data = response.json()
-        if data.get("ec") == 200:
-            return data["data"]["list"], data["data"]["total_page"]
+        # 处理响应
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("ec") == 200:
+                return data["data"]["list"], data["data"]["total_page"]
+            else:
+                return None, None
         else:
-            print(f"API请求失败: {data.get('em', '未知错误')}")
             return None, None
-    else:
-        print(f"HTTP请求失败，状态码: {response.status_code}")
+    except Exception:
         return None, None
 
 
@@ -82,27 +84,52 @@ def get_all_sponsors():
         if not sponsors:
             break
         all_sponsors.extend(sponsors)
-        print(f"已获取第{page}页，共{len(sponsors)}个赞助者")
         if total_page is None or page >= total_page:
             break
         page += 1
     return all_sponsors
 
 
-if __name__ == "__main__":
-    # 获取所有赞助者
-    all_sponsors = get_all_sponsors()
+def generate_markdown(sponsors):
+    """将赞助者数据转换为markdown表格"""
+    if not sponsors:
+        return "暂无赞助者数据"
+    md = ""
+    md += "| --- | --- | --- |\n"
+    for sponsor in sponsors:
+        user_info = sponsor.get("user", {})
+        name = user_info.get("name", "未知")
+        amount = sponsor.get("all_sum_amount", "0.00")
+        last_time = sponsor.get("last_pay_time", 0)
+        last_time_str = time.strftime(
+            "%Y-%m-%d", time.localtime(last_time)) if last_time else "-"
+        md += f"| {name} | {amount}元 | {last_time_str} |\n"
+    return md
 
-    if all_sponsors:
-        print(f"\n共获取到{len(all_sponsors)}个赞助者：")
-        for idx, sponsor in enumerate(all_sponsors, 1):
-            user_info = sponsor.get("user", {})
-            print(f"\n赞助者 {idx}:")
-            print(f"用户ID: {user_info.get('user_id', '未知')}")
-            print(f"昵称: {user_info.get('name', '未知')}")
-            print(f"累计赞助金额: {sponsor.get('all_sum_amount', '0.00')}元")
-            print(
-                f"首次赞助时间: {time.strftime('%Y-%m-%d', time.localtime(sponsor.get('create_time', 0)))}")
-            print(
-                f"最近赞助时间: {time.strftime('%Y-%m-%d', time.localtime(sponsor.get('last_pay_time', 0)))}")
-            print("-" * 50)
+
+# 程序启动时获取数据
+# all_sponsors = get_all_sponsors()
+# sponsors_md = generate_markdown(all_sponsors)
+sponsors_md = ""
+
+from datetime import datetime
+
+now = datetime.now()
+
+
+def define_env(env):
+    """
+    This is the hook for the variables, macros and filters.
+    """
+    @env.macro
+    def get_time():
+        "generate compile time"
+        return now.strftime("%Y-%m-%d %H:%M:%S")
+
+    @env.macro
+    def get_md_list_sponsors() -> str:
+        return sponsors_md
+
+
+if __name__ == "__main__":
+    print(sponsors_md)
